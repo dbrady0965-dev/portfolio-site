@@ -1,25 +1,28 @@
-import { getProject } from "@/lib/content"
+import { getAllPosts } from "@/lib/content"
+import Link from "next/link"
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const project = getProject(params.slug)
+type Post = {
+  slug: string
+  title: string
+  content: string
+}
 
-  if (!project) return <div>Not found</div>
+export default async function Journal() {
+  const posts: Post[] = getAllPosts() || []
 
   return (
     <div>
-      <h1 className="text-3xl mb-4">{project.title}</h1>
-      <p className="text-gray-400 mb-6">{project.excerpt}</p>
+      <h1 className="text-3xl mb-6">Journal</h1>
 
-      <div className="space-y-4">
-        {project.content.split("\n").map((line, i) => {
-          if (line.startsWith("![")) {
-            const src = line.match(/\((.*?)\)/)?.[1]
-            return <img key={i} src={src} className="w-full" />
-          }
-
-          return <p key={i}>{line}</p>
-        })}
-      </div>
+      {posts.map((p) => (
+        <div key={p.slug} className="mb-6">
+          <Link href={`/journal/${p.slug}`}>
+            <h2 className="text-xl hover:underline cursor-pointer">
+              {p.title}
+            </h2>
+          </Link>
+        </div>
+      ))}
     </div>
   )
 }

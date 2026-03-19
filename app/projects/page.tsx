@@ -1,7 +1,15 @@
 import { getAllProjects } from "@/lib/content"
+import Link from "next/link"
 
-export default function Projects() {
-  const projects = getAllProjects()
+type Project = {
+  slug: string
+  title: string
+  excerpt: string
+  content: string
+}
+
+export default async function Projects() {
+  const projects: Project[] = getAllProjects() || []
 
   return (
     <div>
@@ -9,9 +17,11 @@ export default function Projects() {
 
       {projects.map((p) => (
         <div key={p.slug} className="mb-6">
-          <a href={`/projects/${p.slug}`}>
-            <h2 className="text-xl">{p.title}</h2>
-          </a>
+          <Link href={`/projects/${p.slug}`}>
+            <h2 className="text-xl hover:underline cursor-pointer">
+              {p.title}
+            </h2>
+          </Link>
           <p className="text-gray-400">{p.excerpt}</p>
         </div>
       ))}

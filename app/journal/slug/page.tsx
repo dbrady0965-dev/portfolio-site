@@ -1,9 +1,21 @@
 import { getPost } from "@/lib/content"
 
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const post = getPost(params.slug)
+type Post = {
+  slug: string
+  title: string
+  content: string
+}
 
-  if (!post) return <div>Not found</div>
+export default async function PostPage({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const post: Post | undefined = getPost(params.slug)
+
+  if (!post) {
+    return <div>Post not found</div>
+  }
 
   return (
     <div>
