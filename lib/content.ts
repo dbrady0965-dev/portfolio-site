@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
+import "server-only"
 
 const projectsDir = path.join(process.cwd(), "content/projects")
 const journalDir = path.join(process.cwd(), "content/journal")
